@@ -1,0 +1,305 @@
+{
+  "fields": {
+    "studentName": {
+      "label": "Student Name",
+      "type": "text",
+      "required": true,
+      "validation": {
+        "minLength": 2,
+        "maxLength": 50,
+        "pattern": "^[a-zA-Z\\s.'-]+$"
+      },
+      "messages": {
+        "required": "Student name is required.",
+        "minLength": "Student name must contain at least 2 characters.",
+        "maxLength": "Student name cannot exceed 50 characters.",
+        "pattern": "Student name can only contain letters, spaces, dots, and hyphens."
+      }
+    },
+    "enrollmentNo": {
+      "label": "Enrollment Number",
+      "type": "text",
+      "required": true,
+      "validation": {
+        "minLength": 3,
+        "maxLength": 20,
+        "pattern": "^[a-zA-Z0-9_-]+$",
+        "isUnique": true
+      },
+      "messages": {
+        "required": "Enrollment number is required.",
+        "minLength": "Enrollment number must contain at least 3 characters.",
+        "maxLength": "Enrollment number cannot exceed 20 characters.",
+        "pattern": "Enrollment number can only contain alphanumeric characters, hyphens, and underscores.",
+        "unique": "This enrollment number is already registered to another student."
+      }
+    },
+    "email": {
+      "label": "Email Address",
+      "type": "email",
+      "required": true,
+      "validation": {
+        "pattern": "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$",
+        "isUnique": true
+      },
+      "messages": {
+        "required": "Email address is required.",
+        "pattern": "Please enter a valid email address (e.g. student@college.edu).",
+        "unique": "This email address is already registered to another student."
+      }
+    },
+    "mobileNumber": {
+      "label": "Mobile Number",
+      "type": "tel",
+      "required": true,
+      "validation": {
+        "pattern": "^[0-9]{10}$"
+      },
+      "messages": {
+        "required": "Mobile number is required.",
+        "pattern": "Mobile number must be exactly 10 digits without spaces or special characters."
+      }
+    },
+    "dob": {
+      "label": "Date of Birth",
+      "type": "date",
+      "required": true,
+      "validation": {
+        "noFutureDate": true,
+        "minAge": 18,
+        "maxAge": 60
+      },
+      "messages": {
+        "required": "Date of birth is required.",
+        "futureDate": "Date of birth cannot be in the future.",
+        "ageRange": "Student age must be between 18 and 60 years."
+      }
+    },
+    "age": {
+      "label": "Age",
+      "type": "number",
+      "required": true,
+      "validation": {
+        "min": 18,
+        "max": 60
+      },
+      "messages": {
+        "required": "Age is required (calculated automatically from Date of Birth).",
+        "min": "Age must be at least 18 years.",
+        "max": "Age cannot exceed 60 years."
+      }
+    },
+    "gender": {
+      "label": "Gender",
+      "type": "radio",
+      "required": true,
+      "options": ["Male", "Female", "Other"],
+      "messages": {
+        "required": "Please select a gender."
+      }
+    },
+    "course": {
+      "label": "Course",
+      "type": "select",
+      "required": true,
+      "messages": {
+        "required": "Please select a course from the dropdown."
+      }
+    },
+    "specialization": {
+      "label": "Specialization",
+      "type": "select",
+      "required": true,
+      "messages": {
+        "required": "Please select a specialization based on your course."
+      }
+    },
+    "semester": {
+      "label": "Semester",
+      "type": "select",
+      "required": true,
+      "validation": {
+        "min": 1,
+        "max": 6
+      },
+      "messages": {
+        "required": "Please select a semester (1 to 6)."
+      }
+    },
+    "address": {
+      "label": "Address",
+      "type": "textarea",
+      "required": true,
+      "validation": {
+        "minLength": 5,
+        "maxLength": 200
+      },
+      "messages": {
+        "required": "Address is required.",
+        "minLength": "Address must be at least 5 characters long.",
+        "maxLength": "Address cannot exceed 200 characters."
+      }
+    },
+    "city": {
+      "label": "City",
+      "type": "text",
+      "required": true,
+      "validation": {
+        "minLength": 2,
+        "maxLength": 50,
+        "pattern": "^[a-zA-Z\\s.'-]+$"
+      },
+      "messages": {
+        "required": "City is required.",
+        "minLength": "City must be at least 2 characters.",
+        "maxLength": "City cannot exceed 50 characters.",
+        "pattern": "City name can only contain letters and spaces."
+      }
+    },
+    "state": {
+      "label": "State",
+      "type": "text",
+      "required": true,
+      "validation": {
+        "minLength": 2,
+        "maxLength": 50,
+        "pattern": "^[a-zA-Z\\s.'-]+$"
+      },
+      "messages": {
+        "required": "State is required.",
+        "minLength": "State must be at least 2 characters.",
+        "maxLength": "State cannot exceed 50 characters.",
+        "pattern": "State name can only contain letters and spaces."
+      }
+    },
+    "skills": {
+      "label": "Skills",
+      "type": "checkbox",
+      "required": true,
+      "validation": {
+        "minSelected": 1
+      },
+      "messages": {
+        "required": "Please select at least one skill."
+      }
+    },
+    "hobbies": {
+      "label": "Hobbies",
+      "type": "checkbox",
+      "required": true,
+      "validation": {
+        "minSelected": 1
+      },
+      "messages": {
+        "required": "Please select at least one hobby."
+      }
+    },
+    "photo": {
+      "label": "Passport Photo",
+      "type": "file",
+      "required": true,
+      "validation": {
+        "allowedTypes": ["image/jpeg", "image/jpg", "image/png"],
+        "maxSizeBytes": 2097152
+      },
+      "messages": {
+        "required": "Passport photo is required.",
+        "invalidType": "Only JPG, JPEG, and PNG images are allowed.",
+        "maxSize": "Photo size must not exceed 2 MB."
+      }
+    }
+  },
+  "options": {
+    "courses": [
+      {
+        "name": "MSc IT",
+        "specializations": [
+          "Artificial Intelligence & ML",
+          "Data Science & Analytics",
+          "Cloud Computing & DevOps",
+          "Cyber Security",
+          "Full Stack Web Development"
+        ]
+      },
+      {
+        "name": "Computer Science & Engineering",
+        "specializations": [
+          "Artificial Intelligence",
+          "Machine Learning",
+          "Information Security",
+          "Software Engineering",
+          "Distributed Systems"
+        ]
+      },
+      {
+        "name": "Information Technology",
+        "specializations": [
+          "Web & Mobile App Development",
+          "Database Administration",
+          "Network Engineering",
+          "IT Infrastructure"
+        ]
+      },
+      {
+        "name": "Electronics & Communication",
+        "specializations": [
+          "Embedded Systems & IoT",
+          "VLSI Design",
+          "Robotics & Automation",
+          "Wireless Communication"
+        ]
+      },
+      {
+        "name": "Mechanical Engineering",
+        "specializations": [
+          "CAD/CAM Design",
+          "Thermal Systems",
+          "Robotics & Mechatronics",
+          "Automotive Engineering"
+        ]
+      },
+      {
+        "name": "Civil Engineering",
+        "specializations": [
+          "Structural Engineering",
+          "Geotechnical Engineering",
+          "Environmental Engineering",
+          "Construction Technology"
+        ]
+      },
+      {
+        "name": "Business Administration",
+        "specializations": [
+          "Financial Management",
+          "Marketing & Digital Strategy",
+          "Human Resource Management",
+          "Business Analytics",
+          "Operations & Supply Chain"
+        ]
+      }
+    ],
+    "semesters": [1, 2, 3, 4, 5, 6],
+    "skills": [
+      "Python",
+      "JavaScript",
+      "Java",
+      "C++",
+      "HTML5/CSS3",
+      "React",
+      "Node.js",
+      "SQL / Relational DB",
+      "Machine Learning",
+      "Git & GitHub"
+    ],
+    "hobbies": [
+      "Coding & Open Source",
+      "Reading Tech Articles",
+      "Gaming & Esports",
+      "Sports & Athletics",
+      "Music & Instruments",
+      "Photography",
+      "Travelling & Trekking"
+    ],
+    "genders": ["Male", "Female", "Other"]
+  }
+}

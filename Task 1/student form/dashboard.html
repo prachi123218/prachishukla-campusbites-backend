@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard | Student Management System</title>
+  <meta name="description" content="Admin-only dashboard to view, edit, and delete student records.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script>
+    if (sessionStorage.getItem("sms_admin_auth") !== "true") {
+      window.location.replace("login.html");
+    }
+  </script>
+</head>
+
+<body class="dashboard-body" data-page="dashboard">
+
+  <header class="dashboard-navbar">
+    <div class="navbar-container">
+      <div class="navbar-brand">
+        <div class="brand-icon-wrap" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
+            <path d="M6 12v5c3 3 9 3 12 0v-5" />
+          </svg>
+        </div>
+        <div class="brand-titles">
+          <h1 class="brand-heading">Admin Dashboard</h1>
+          <span class="brand-sub">Student records • Admin only</span>
+        </div>
+      </div>
+
+      <div class="navbar-actions">
+        <span class="admin-profile-pill">
+          <div class="admin-avatar">AD</div>
+          <span class="admin-name">admin</span>
+        </span>
+        <button type="button" id="logoutBtn" class="btn-logout">Logout</button>
+      </div>
+    </div>
+  </header>
+
+  <div id="toastNotification" class="toast-notification" role="status" aria-live="polite">
+    <div class="toast-icon-wrap" aria-hidden="true">
+      <svg viewBox="0 0 20 20" fill="currentColor">
+        <path fill-rule="evenodd"
+          d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+          clip-rule="evenodd" />
+      </svg>
+    </div>
+    <div class="toast-content">
+      <span class="toast-title" id="toastTitle">Notification</span>
+      <span class="toast-desc" id="toastDesc">Operation completed successfully.</span>
+    </div>
+    <button type="button" id="closeToastBtn" class="close-toast-btn" aria-label="Close message">&times;</button>
+  </div>
+
+  <main class="dashboard-main">
+    <div class="crud-container">
+
+      <section class="form-card" id="adminEditCard" aria-label="Edit student record" style="display: none;">
+
+        <div class="form-header-row">
+          <div class="form-header">
+            <div class="header-icon-wrap" aria-hidden="true">
+              <svg class="header-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                <circle cx="9" cy="7" r="4"></circle>
+                <path d="M17 8l4 4-4 4"></path>
+              </svg>
+            </div>
+            <div class="header-text">
+              <h2 class="form-title" id="formCardTitle">Edit Student Information</h2>
+              <p class="form-subtitle">Update the selected student record.</p>
+            </div>
+          </div>
+
+          <span id="editModeBadge" class="edit-mode-badge">
+            <span>Edit Mode Active</span>
+          </span>
+        </div>
+
+        <hr class="header-divider" />
+
+        <form id="studentForm" class="student-form" novalidate>
+          <div class="form-grid">
+
+            <div class="form-group" id="group-studentName">
+              <label for="studentName" class="form-label">
+                Student Name <span class="required">*</span>
+              </label>
+              <input type="text" id="studentName" name="studentName" class="form-control" placeholder="e.g. John Doe"
+                autocomplete="name" required />
+              <div class="validation-message" id="error-studentName"></div>
+            </div>
+
+            <div class="form-group" id="group-email">
+              <label for="email" class="form-label">
+                Email <span class="required">*</span>
+              </label>
+              <input type="email" id="email" name="email" class="form-control" placeholder="e.g. student@college.edu"
+                autocomplete="email" required />
+              <div class="validation-message" id="error-email"></div>
+            </div>
+
+            <div class="form-group" id="group-mobileNumber">
+              <label for="mobileNumber" class="form-label">
+                Mobile Number <span class="required">*</span>
+              </label>
+              <input type="tel" id="mobileNumber" name="mobileNumber" class="form-control" placeholder="e.g. 9876543210"
+                maxlength="10" autocomplete="tel" required />
+              <div class="validation-message" id="error-mobileNumber"></div>
+            </div>
+
+            <div class="form-group" id="group-dob">
+              <label for="dob" class="form-label">
+                Date of Birth <span class="required">*</span>
+              </label>
+              <input type="date" id="dob" name="dob" class="form-control" required />
+              <div class="validation-message" id="error-dob"></div>
+            </div>
+
+            <div class="form-group full-width" id="group-gender">
+              <label class="form-label">
+                Gender <span class="required">*</span>
+              </label>
+              <div class="gender-options-group" role="radiogroup">
+                <label class="gender-option">
+                  <input type="radio" name="gender" value="Male" class="gender-radio" />
+                  <span class="gender-custom-indicator"></span>
+                  <span class="gender-text">Male</span>
+                </label>
+                <label class="gender-option">
+                  <input type="radio" name="gender" value="Female" class="gender-radio" />
+                  <span class="gender-custom-indicator"></span>
+                  <span class="gender-text">Female</span>
+                </label>
+                <label class="gender-option">
+                  <input type="radio" name="gender" value="Other" class="gender-radio" />
+                  <span class="gender-custom-indicator"></span>
+                  <span class="gender-text">Other</span>
+                </label>
+              </div>
+              <div class="validation-message" id="error-gender"></div>
+            </div>
+
+            <div class="form-group full-width" id="group-course">
+              <label for="course" class="form-label">
+                Course <span class="required">*</span>
+              </label>
+              <div class="select-wrapper">
+                <select id="course" name="course" class="form-control form-select" required>
+                  <option value="" disabled selected>Select Course</option>
+                  <option value="B.Tech Computer Science">B.Tech Computer Science</option>
+                  <option value="B.Tech Information Technology">B.Tech Information Technology</option>
+                  <option value="B.Tech Mechanical Engineering">B.Tech Mechanical Engineering</option>
+                  <option value="B.Tech Civil Engineering">B.Tech Civil Engineering</option>
+                  <option value="BCA">BCA (Bachelor of Computer Applications)</option>
+                  <option value="MCA">MCA (Master of Computer Applications)</option>
+                  <option value="B.Sc Data Science">B.Sc Data Science</option>
+                  <option value="MBA">MBA (Master of Business Administration)</option>
+                </select>
+                <span class="select-arrow" aria-hidden="true">
+                  <svg viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd"
+                      d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                      clip-rule="evenodd" />
+                  </svg>
+                </span>
+              </div>
+              <div class="validation-message" id="error-course"></div>
+            </div>
+
+            <div class="form-group full-width" id="group-address">
+              <label for="address" class="form-label">
+                Address <span class="required">*</span>
+              </label>
+              <textarea id="address" name="address" class="form-control form-textarea" rows="3"
+                placeholder="Enter student's street address, city, and state" required></textarea>
+              <div class="validation-message" id="error-address"></div>
+            </div>
+
+            <div class="form-group full-width" id="group-photo">
+              <label for="studentPhoto" class="form-label">
+                Student Photo <span class="optional-tag">(Optional • JPG, PNG, WebP &lt; 2MB)</span>
+              </label>
+              <div class="photo-upload-zone" id="photoDropZone">
+                <input type="file" id="studentPhoto" name="studentPhoto" accept="image/*" class="file-input-hidden" />
+                <div class="upload-prompt" id="uploadPrompt">
+                  <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                    <circle cx="8.5" cy="8.5" r="1.5" />
+                    <polyline points="21 15 16 10 5 21" />
+                  </svg>
+                  <span class="upload-text">Upload a passport size photo</span>
+                  <label for="studentPhoto" class="btn-choose-file">Choose Photo</label>
+                </div>
+
+                <div class="photo-preview-container" id="photoPreviewContainer" style="display: none;">
+                  <div class="preview-image-wrap">
+                    <img id="photoPreviewImg" src="" alt="Student Photo Preview" />
+                  </div>
+                  <div class="preview-details">
+                    <span class="preview-file-name">Selected Photo</span>
+                    <button type="button" id="btnRemovePhoto" class="btn-remove-photo">Remove Photo</button>
+                  </div>
+                </div>
+              </div>
+              <div class="validation-message" id="error-photo"></div>
+            </div>
+
+          </div>
+
+          <hr class="actions-divider" />
+          <div class="form-actions">
+            <button type="submit" id="submitBtn" class="btn btn-primary btn-update-mode">
+              <span class="btn-icon">✓</span>
+              <span id="submitBtnText">Update Student</span>
+            </button>
+
+            <button type="button" id="cancelEditBtn" class="btn-cancel-edit">
+              Cancel Edit
+            </button>
+          </div>
+        </form>
+
+      </section>
+
+      <section class="table-card" aria-label="Student Records Management">
+
+        <div class="table-card-header">
+          <div class="table-title-group">
+            <h2 class="table-title">Student Records</h2>
+            <span class="badge-counter" id="totalCountBadge">0 records</span>
+          </div>
+
+          <div class="table-toolbar">
+            <div class="search-input-wrap">
+              <svg class="search-icon" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd"
+                  d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                  clip-rule="evenodd" />
+              </svg>
+              <input type="text" id="searchInput" class="search-field" placeholder="Search by name, email, mobile..." />
+            </div>
+
+            <div class="filter-wrap">
+              <select id="filterCourse" class="filter-select">
+                <option value="all">All Courses</option>
+                <option value="B.Tech Computer Science">B.Tech Computer Science</option>
+                <option value="B.Tech Information Technology">B.Tech Information Technology</option>
+                <option value="B.Tech Mechanical Engineering">B.Tech Mechanical Engineering</option>
+                <option value="B.Tech Civil Engineering">B.Tech Civil Engineering</option>
+                <option value="BCA">BCA</option>
+                <option value="MCA">MCA</option>
+                <option value="B.Sc Data Science">B.Sc Data Science</option>
+                <option value="MBA">MBA</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="table-responsive">
+          <table class="student-table" id="studentTable">
+            <thead>
+              <tr>
+                <th scope="col">Student</th>
+                <th scope="col">Email</th>
+                <th scope="col">Mobile Number</th>
+                <th scope="col">Gender</th>
+                <th scope="col">Date of Birth</th>
+                <th scope="col">Course</th>
+                <th scope="col">Address</th>
+                <th scope="col" class="text-right">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="studentTableBody">
+            </tbody>
+          </table>
+
+          <div class="empty-state" id="emptyState" style="display: none;">
+            <div class="empty-state-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="8" x2="12" y2="12"></line>
+                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+              </svg>
+            </div>
+            <p class="empty-state-title">No student records found</p>
+            <p class="empty-state-desc">Records appear here after students register from the form page.</p>
+          </div>
+        </div>
+
+      </section>
+
+    </div>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+
+</html>

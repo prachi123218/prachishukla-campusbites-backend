@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Login | Student Management System</title>
+  <meta name="description" content="Secure administrative login for college Student Management System.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <div class="bg-accent-corner" aria-hidden="true"></div>
+
+  <main class="page-container auth-page">
+    <div class="auth-card">
+
+      <!-- Header -->
+      <div class="auth-header">
+        <div class="auth-icon-wrap" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+          </svg>
+        </div>
+        <h1 class="auth-title">Admin Portal</h1>
+        <p class="auth-subtitle">Sign in with administrator credentials to manage records.</p>
+      </div>
+
+      <!-- Demo Credentials Hint Banner -->
+      <!-- div class="demo-credentials-banner">
+        <div class="hint-icon">
+          <svg viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd"
+              d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+              clip-rule="evenodd" />
+          </svg>
+        </div>
+        <div class="hint-text">
+          <span>Demo Login Credentials:</span>
+          <strong>Username: <code>admin</code> • Password: <code>123</code></strong>
+        </div>
+      </div>-->
+
+      <!-- Error Banner -->
+      <div id="loginErrorBanner" class="error-notification" style="display: none;">
+        <svg viewBox="0 0 20 20" fill="currentColor" width="18" height="18">
+          <path fill-rule="evenodd"
+            d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+            clip-rule="evenodd" />
+        </svg>
+        <span id="loginErrorMessage">Invalid username or password.</span>
+      </div>
+
+      <!-- Login Form -->
+      <form id="adminLoginForm" class="auth-form" novalidate>
+        <div class="form-group">
+          <label for="adminUsername" class="form-label">Username</label>
+          <input type="text" id="adminUsername" class="form-control" placeholder="e.g. admin" value="admin" required />
+        </div>
+
+        <div class="form-group">
+          <label for="adminPassword" class="form-label">Password</label>
+          <input type="password" id="adminPassword" class="form-control" placeholder="e.g. 123" value="123" required />
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-auth-submit">
+          <span>Sign In to Dashboard</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </button>
+      </form>
+
+      <div class="auth-footer">
+        <a href="index.html" class="back-link">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+          <span>Back to Student Registration</span>
+        </a>
+      </div>
+
+    </div>
+  </main>
+
+  <script src="js/storage.js"></script>
+  <script src="js/login.js"></script>
+</body>
+
+</html>
